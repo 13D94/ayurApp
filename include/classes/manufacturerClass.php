@@ -24,6 +24,7 @@ class ManufacturerClass
 
 	/**
 	 * This is the class constructor.
+	 * Connect to the Database and store the reference in $db
 	 * @public
 	 */
 	public function __construct() {
@@ -36,10 +37,11 @@ class ManufacturerClass
 	
 	/**
 	 * Default destructor.
+	 * To close the Database connection link.
 	 * @public
 	 */
 	public function __destruct() {
-		
+		mysqli_close($this->db);
 	}
 	
 	/**
