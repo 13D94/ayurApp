@@ -50,7 +50,7 @@ class ManufacturerClass
 	 * Check if a manufacturer's account is registered or not.
 	 * This function can be used to authenticate the login process of a manufacturer user.
 	 * This function will generate the hash of the password and verify it with hash stored in the database.
-	 * @return (boolean) Returns true if user is registered else flase.
+	 * @return (string) Returns REGISTERED_MFG_USER if user is registered and UNREGISTERED_MFG_USER if user is unregistered.
 	 * @param $mfg_username (string) username of the manufacturer.
 	 * @param $mfg_user_password (string) Password of the account
 	 * @public
