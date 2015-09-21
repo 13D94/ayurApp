@@ -99,7 +99,6 @@ SQL;
 	 * @public
 	 */
 	public function addNewProduct($p_mfg_id,$p_name,$p_image,$p_reference,$p_indic_contra,$p_dosage,$p_user_guide,$p_batch_no,$p_expiry_date,$p_mrp) {
-		$expiry_date = mysqli_real_escape_string($this->db,$p_expiry_date);
 		$sql = <<<SQL
 		INSERT INTO `tb_mfg_products`
 		(`p_mfg_id`, `p_name`, `p_image`, `p_reference`, `p_indic_contra`, `p_dosage`, `p_user_guide`, `p_batch_no`, `p_expiry_date`, `p_mrp`)
@@ -130,7 +129,6 @@ SQL;
 	 */
 	//Adding a new product
 	public function updateProduct($p_id,$p_mfg_id,$p_name,$p_image,$p_reference,$p_indic_contra,$p_dosage,$p_user_guide,$p_batch_no,$p_expiry_date,$p_mrp) {
-		$expiry_date = mysqli_real_escape_string($this->db,$p_expiry_date);
 		$sql = <<<SQL
 		UPDATE `tb_mfg_products` SET
 		`p_name`='$p_name',`p_image`='$p_image',`p_reference`='$p_reference',`p_indic_contra`='$p_indic_contra',`p_dosage`='$p_dosage',`p_user_guide`='$p_user_guide',`p_batch_no`='$p_batch_no',`p_expiry_date`='$p_expiry_date',`p_mrp`='$p_mrp'
