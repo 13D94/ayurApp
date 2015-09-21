@@ -35,6 +35,8 @@ class ManufacturerClass
 		}
 	}
 
+
+
 	/**
 	 * Default destructor.
 	 * To close the Database connection link.
@@ -42,6 +44,42 @@ class ManufacturerClass
 	 */
 	public function __destruct() {
 		mysqli_close($this->db);
+	}
+
+	/**
+	 * Check if a manufacturer's account is registered or not.
+	 * This function can be used to authenticate the login process of a manufacturer user.
+	 * This function will generate the hash of the password and verify it with hash stored in the database.
+	 * @return (boolean) Returns true if user is registered else flase.
+	 * @param $mfg_username (string) username of the manufacturer.
+	 * @param $mfg_user_password (string) Password of the account
+	 * @public
+	 */
+	public function checkMfgAccountRegistration($mfg_username,$mfg_user_password){
+		$sql = <<<SQL
+		SELECT `mfg_password_hash` 
+		FROM `tb_mfg` 
+		WHERE `mfg_username`='$mfg_username'
+SQL;
+		if(!$result = $this->db->query($sql)){
+			errorHandler('DB_MFG_LOGIN_CREDENTIALS_QUERY_ERROR',$this->db->error);
+			return;
+		}else{
+			if($result->num_rows > 0){
+				$mfgUser = $result->fetch_assoc();
+				$storedPasswordHash = $mfgUser['mfg_password_hash'];
+				if (password_verify($mfg_user_password, $storedPasswordHash)) {
+					return("REGISTERED_MFG_USER");
+				}else{
+					return("UNREGISTERED_MFG_USER");
+				}
+			}else{
+				errorHandler('DB_MFG_LOGIN_CREDENTIALS_CHECK_ERROR',"No record in the DB with the Username :".$mfg_username);
+				return;
+			}
+
+		}
+
 	}
 
 	/**
@@ -68,7 +106,6 @@ class ManufacturerClass
 		VALUES ('$p_mfg_id','$p_name','$p_image','$p_reference','$p_indic_contra','$p_dosage','$p_user_guide','$p_batch_no','$p_expiry_date','$p_mrp')
 SQL;
 		if(!$result = $this->db->query($sql)){
-			//die('There was an error running the query [' . $db->error . ']');
 			errorHandler('DB_MFG_INSERT_PRODUCT_ERROR',$this->db->error);
 			return;
 		}
@@ -101,7 +138,6 @@ SQL;
 SQL;
 		
 		if(!$result = $this->db->query($sql)){
-			//die('There was an error running the query [' . $db->error . ']');
 			errorHandler('DB_MFG_INSERT_PRODUCT_ERROR',$this->db->error);
 			return;
 		}
@@ -110,6 +146,10 @@ SQL;
 
 $mfg = new ManufacturerClass;
 //	$mfg->addNewProduct('1',"adsf","fdsf","fsdf","t4twr","213","fddsfd","123",'2015-09-20 14:45:51',"23324");
-$mfg->updateProduct('11','1',"adsffds","ffdsfsdsf","f1fdfsfsdf","tsdfsfs4twr","1213","fddsfd","123",'2015-09-20 14:45:51',"23324");
-	echo "inserted";
+//$mfg->updateProduct('11','1',"adsffds","ffdsfsdsf","f1fdfsfsdf","tsdfsfs4twr","1213","fddsfd","123",'2015-09-20 14:45:51',"23324");
+//	echo "inserted";
+
+
+//$status = $mfg->checkMfgAccountRegistration("ptk","ptk1");
+//echo $status;
 ?>
