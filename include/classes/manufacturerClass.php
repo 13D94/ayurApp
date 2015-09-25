@@ -1,6 +1,6 @@
 <?php
 // Require the ayurCoreLibrary
-require_once('../coreLibrary.php');
+require_once(__DIR__."/../coreLibrary.php");
 // SQL login user name for manufacturer
 define("DB_MFG_USERNAME",'root');
 // SQL password for manufacturer
@@ -50,7 +50,7 @@ class ManufacturerClass
 	 * Check if a manufacturer's account is registered or not.
 	 * This function can be used to authenticate the login process of a manufacturer user.
 	 * This function will generate the hash of the password and verify it with hash stored in the database.
-	 * @return (string) Returns REGISTERED_MFG_USER if user is registered and UNREGISTERED_MFG_USER if user is unregistered.
+	 * @return (string) Returns MFG_USER_REGISTERED if user is registered and MFG_USER_INCORRECT_CREDENTIALS if credentials are invalid and MFG_USER_UNREGISTERED if user is unregistered.
 	 * @param $mfg_username (string) username of the manufacturer.
 	 * @param $mfg_user_password (string) Password of the account
 	 * @public
@@ -69,13 +69,12 @@ SQL;
 				$mfgUser = $result->fetch_assoc();
 				$storedPasswordHash = $mfgUser['mfg_password_hash'];
 				if (password_verify($mfg_user_password, $storedPasswordHash)) {
-					return("REGISTERED_MFG_USER");
+					return("MFG_USER_REGISTERED");
 				}else{
-					return("UNREGISTERED_MFG_USER");
+					return("MFG_USER_INCORRECT_CREDENTIALS");
 				}
 			}else{
-				errorHandler('DB_MFG_LOGIN_CREDENTIALS_CHECK_ERROR',"No record in the DB with the Username :".$mfg_username);
-				return;
+				return("MFG_USER_UNREGISTERED");
 			}
 
 		}
