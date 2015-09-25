@@ -68,9 +68,13 @@ function errorHandler($errorCode,$errorMsg){
 				break;
 		case 'DB_MFG_INSERT_PRODUCT_ERROR' : echo "Unable to insert product into Manufacturers database! : ".$errorMsg;
 				break;
-    case 'DB_MFG_LOGIN_CREDENTIALS_QUERY_ERROR' : echo "Unable to query Database about the login credentials :".$errorMsg;
+    case 'DB_MFG_LOGIN_CREDENTIALS_QUERY_ERROR' : echo "Unable to query Database about the login credentials : ".$errorMsg;
         break;
     case 'DB_MFG_LOGIN_CREDENTIALS_CHECK_ERROR' : echo $errorMsg;
+        break;
+    case 'DB_MFG_LOGIN_GETMFGID_QUERY_ERROR' : echo "Unable to query Database about the mfg_id of the given Username : ".$errorMsg;
+        break;
+    case 'DB_MFG_LOGIN_GETMFGID_ERROR' :echo "No mfg_id found of the given Username! : ".$errorMsg;
         break;
 		default: echo "Unknown Error !";
 	}

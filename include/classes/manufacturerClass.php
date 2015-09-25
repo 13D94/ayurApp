@@ -49,9 +49,42 @@ class ManufacturerClass
 	}
 
 	/**
+	 * To get mfg_id of the provided username.
+	 *
+	 * This function can be used to get the mfg_id of the username provided from the database. This is can be used to store in the session during login.
+	 * @return (integer) Returns mfg_id.
+	 * @param $mfg_username (string) username of the manufacturer.
+	 * @public
+	 */
+	public function getMfgIdFromMfgUname($mfg_username){
+		// Trimming and Escaping Username
+		$mfg_username = $this->db->real_escape_string(trim($mfg_username));
+		$sql = <<<SQL
+		SELECT `mfg_id` 
+		FROM `tb_mfg` 
+		WHERE `mfg_username`='$mfg_username'
+SQL;
+		if(!$result = $this->db->query($sql)){
+			errorHandler('DB_MFG_LOGIN_GETMFGID_QUERY_ERROR',$this->db->error);
+			return;
+		}else{
+			if($result->num_rows > 0){
+				$mfgUser = $result->fetch_assoc();
+				$mfg_id = $mfgUser['mfg_id'];
+				return $mfg_id;
+			}else{
+				errorHandler('DB_MFG_LOGIN_GETMFGID_ERROR',$this->db->error);
+				return;
+			}
+
+		}
+	}
+
+	/**
 	 * Check if a manufacturer's account is registered or not.
 	 *
 	 * This function can be used to authenticate the login process of a manufacturer user.
+	 * The passed parameters are escaped and trimmed before substituting them into the SQL Query.
 	 * This function will generate the hash of the password and verify it with hash stored in the database.
 	 * @return (string) Returns MFG_USER_REGISTERED if user is registered and MFG_USER_INCORRECT_CREDENTIALS if credentials are invalid and MFG_USER_UNREGISTERED if user is unregistered.
 	 * @param $mfg_username (string) username of the manufacturer.
