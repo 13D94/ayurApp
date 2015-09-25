@@ -31,8 +31,8 @@ if (defined("DEVELOPMENT")) {
 /**
  * Loads all the libs from include/libs to the calling page
  *
- * @param string $currentPath the current path of the page which is calling this function
- * @return all the <script> and css files to calling page
+ * @param (string) $currentPath the current path of the page which is calling this function
+ * @return (string) all the <script> and css files to calling page
  */
 function getHeadScriptTags($currentPath){
   echo <<<SCRIPT
@@ -56,10 +56,21 @@ SCRIPT;
 }
 
 /**
+ * Function to Trim Spaces and Escapes special characters to prevent SQL Injections
+ *
+ * @param (string) $Variable Can be anything, eg: Username and Password
+ * @return (string) Safe string.
+ */
+function trimAndEscape($variable) {
+  $variable = mysql_real_escape_string(trim($variable)); 
+  return $variable;  
+}
+
+/**
  * Global Error Handler
  *
- * @param string $errorCode the error code defined in the switch statement of this function
- * @param string $errorMsg the error message given by the error thrown function
+ * @param (string) $errorCode the error code defined in the switch statement of this function
+ * @param (string) $errorMsg the error message given by the error thrown function
  * @return return nothing.
  */
 function errorHandler($errorCode,$errorMsg){
