@@ -56,17 +56,6 @@ SCRIPT;
 }
 
 /**
- * Function to Trim Spaces and Escapes special characters to prevent SQL Injections
- *
- * @param (string) $Variable Can be anything, eg: Username and Password
- * @return (string) Safe string.
- */
-function trimAndEscape($variable) {
-  $variable = mysql_real_escape_string(trim($variable)); 
-  return $variable;  
-}
-
-/**
  * Global Error Handler
  *
  * @param (string) $errorCode the error code defined in the switch statement of this function
