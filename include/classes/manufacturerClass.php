@@ -24,6 +24,7 @@ class ManufacturerClass
 
 	/**
 	 * This is the class constructor.
+	 *
 	 * Connect to the Database and store the reference in $db
 	 * @public
 	 */
@@ -39,6 +40,7 @@ class ManufacturerClass
 
 	/**
 	 * Default destructor.
+	 *
 	 * To close the Database connection link.
 	 * @public
 	 */
@@ -48,6 +50,7 @@ class ManufacturerClass
 
 	/**
 	 * Check if a manufacturer's account is registered or not.
+	 *
 	 * This function can be used to authenticate the login process of a manufacturer user.
 	 * This function will generate the hash of the password and verify it with hash stored in the database.
 	 * @return (string) Returns MFG_USER_REGISTERED if user is registered and MFG_USER_INCORRECT_CREDENTIALS if credentials are invalid and MFG_USER_UNREGISTERED if user is unregistered.
@@ -56,6 +59,12 @@ class ManufacturerClass
 	 * @public
 	 */
 	public function checkMfgAccountRegistration($mfg_username,$mfg_user_password){
+		// Trimming and Escaping Username
+		$mfg_username = $this->db->real_escape_string(trim($mfg_username));
+
+		// Trimming and Escaping Password
+		$mfg_user_password = $this->db->real_escape_string(trim($mfg_user_password));
+
 		$sql = <<<SQL
 		SELECT `mfg_password_hash` 
 		FROM `tb_mfg` 
@@ -83,6 +92,7 @@ SQL;
 
 	/**
 	 * For the manufacturer to add a new product
+	 *
 	 * This parameters of this functions must be verified for their types before passing.
 	 * @param $p_id (integer) The product id of the product added, this is autoincremented in the database
 	 * @param $p_mf_id (integer) The product's manufacturer id. this will be taken from the session when a manufacturer is adding a new product.
@@ -111,6 +121,7 @@ SQL;
 
 	/**
 	 * For the manufacturer to update an existing product
+	 *
 	 * p_id and p_mfg_id must be used to match the product
 	 * This parameters of this functions must be verified for their types before passing.
 	 * @param $p_id (integer) The product id of the product added, this is autoincremented in the database
