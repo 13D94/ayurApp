@@ -49,9 +49,12 @@ function getHeadScriptTags($currentPath){
       <script src="$currentPath/include/libs/bootstrap/bootstrapForIE9/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="$currentPath/include/libs/bootstrap/bootstrapForIE9/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+  <!-- Parsley 2.2.0 -->
+  <script src="$currentPath/include/libs/parsley-2.2.0/parsley.min.js"></script>
   <!-- font-Awesome 4.4.0 -->
   <link rel="stylesheet" href="$currentPath/include/libs/font-awesome-4.4.0/css/font-awesome.min.css">
   <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+
 SCRIPT;
 }
 
