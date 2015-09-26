@@ -76,6 +76,10 @@ function errorHandler($errorCode,$errorMsg){
         break;
     case 'DB_MFG_LOGIN_GETMFGID_ERROR' :echo "No mfg_id found of the given Username! : ".$errorMsg;
         break;
+    case 'DB_MFG_DELETE_PRODUCT_QUERY_ERROR' : echo "Unable to execute query for deleting the product : ".$errorMsg;
+        break;
+    case 'DB_MFG_DELETE_PRODUCT_ERROR' : echo $errorMsg;
+        break;
 		default: echo "Unknown Error !";
 	}
 
