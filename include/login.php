@@ -63,8 +63,8 @@ if($_POST['loginType'] == "mfg"){
 		session_write_close();
 
 		// Redirect him to manufacturer main.php.
-		//header("location: ../manufacturer/main.php");
-		//exit();
+		header("location: ../manufacturer/dashboard.php");
+		exit();
 	}else if($mfgRegStatus == "MFG_USER_INCORRECT_CREDENTIALS"){
 
 		// Set Session MFG_LOGIN_FLAG to 1, which means incorrect Login Credentials!

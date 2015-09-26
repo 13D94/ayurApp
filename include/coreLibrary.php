@@ -59,6 +59,36 @@ SCRIPT;
 }
 
 /**
+ * Function to check the Logged in status.
+ *
+ * This function is used to redirect users to othere pages ,who open the login page again after loggin in once.
+ * It can also be used to check if a user is logged in or not, this can be placed in the top of all pages.
+ * @param (string) $nameOfThePage The name of the page calling the function
+ * @return return nothing.
+ */
+function checkMfgLoggedInStatus($nameOfThePage){
+  session_start();
+
+  // If login page is opened again redirect him to Dashboard.
+  if($nameOfThePage == "mfgLoginPage"){
+    if(isset($_SESSION['MFG_LOGIN_FLAG']) && $_SESSION['MFG_LOGIN_FLAG'] == 2){
+        // Redirect to Manufacturer Dashboard Page as he is already Logged in
+        header("location: dashboard.php");
+        exit();
+    }
+
+   // If He opens Dashboard without logging in, redirect him to login page. 
+  }else if($nameOfThePage == "mfgDashboard"){
+    if(!isset($_SESSION['MFG_LOGIN_FLAG']) || $_SESSION['MFG_LOGIN_FLAG'] != 2 || $_SESSION['MFG_LOGIN_FLAG'] == 1){
+        // Redirect to Manufacturer Login Page
+        header("location: ../manufacturer/");
+        exit();
+    }
+  }
+}
+
+
+/**
  * Global Error Handler
  *
  * @param (string) $errorCode the error code defined in the switch statement of this function
