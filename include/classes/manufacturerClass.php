@@ -213,12 +213,12 @@ SQL;
 	}
 }
 
-$mfg = new ManufacturerClass;
-	$mfg->addNewProduct('1',"adsf","fdsf","fsdf","t4twr","213","fddsfd","123",'2015-09-20 14:45:51',"23324");
+//$mfg = new ManufacturerClass;
+//$mfg->addNewProduct('1',"adsf","fdsf","fsdf","t4twr","213","fddsfd","123",'2015-09-20 14:45:51',"23324");
 //$mfg->updateProduct('11','1',"adsffds","ffdsfsdsf","f1fdfsfsdf","tsdfsfs4twr","1213","fddsfd","123",'2015-09-20 14:45:51',"23324");
 //	echo "inserted";
-$mfg->deleteProduct('19','1');
-echo "deleted";
+//$mfg->deleteProduct('19','1');
+//echo "deleted";
 //$status = $mfg->checkMfgAccountRegistration("ptk","ptk1");
 //echo $status;
 ?>

@@ -1,45 +1,20 @@
-<?php require_once(__DIR__.'/../include/coreLibrary.php');?>
+<?php require_once(__DIR__.'/../include/coreLibrary.php');
+// Check the User Logged In Status, if logged in redirect him to Dashboard.
+checkMfgLoggedInStatus("mfgLoginPage");
+//The parameter passed is the name of the current page.
+?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <?=getHeadScriptTags('..');
-    // load scripts and css from include/libs folder. Use . for previous directory
-    ?>
-  <title>Manufacturer Login</title>
-  <style type="text/css">
-    .roundbox {
-        position: relative;
-		padding: 15px;
-		background-color: white;
-		border: 1px solid #DDD;
-		-webkit-border-radius: 4px;
-		-moz-border-radius: 4px;
-		border-radius: 4px;
-    }
-  body{
-  	padding-top: 15px;
-  }
-   input.parsley-error,
-   select.parsley-error,
-   textarea.parsley-error {
-        color: #B94A48;
-        background-color: #F2DEDE;
-        border: 1px solid #EED3D7;
-  }
-  .parsley-errors-list {
-  		//text-transform: uppercase;
-        list-style-type: none;
-        padding: 0px;
-       //font-weight :bold;
-        //font-size: 0.8em;
-        color: red;
-        font-variant: small-caps;
-    }
-
-    </style>
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<?=getHeadScriptTags('..');
+	    // load scripts and css from include/libs folder. Use . for previous directory
+	    ?>
+	    <!-- Site CSS -->
+	    <link rel="stylesheet" type="text/css" href="./style.css">
+	    <title>Manufacturer Login</title>
   </head>
   <body>
   <div class="container">
@@ -74,14 +49,14 @@
 			 		 <div class="form-group">
 			    		<div class="col-sm-offset-2 col-sm-10">
 			 				<?php 
-			 				session_start();
-			 				if(!is_null($_SESSION['MFG_LOGIN_FLAG'])){
+			 				if(isset($_SESSION['MFG_LOGIN_FLAG'])){
 			 						if($_SESSION['MFG_LOGIN_FLAG'] == 1){
 			 							echo "<div class=\"alert alert-danger alert-dismissible\" role=\"alert\" id=\"invalid_cred_alert\">
 			 							 <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>
 			 							 <strong>Invalid Credentials!</strong></div>";
 			 						}
 			 					} 
+			 				unset($_SESSION['MFG_LOGIN_FLAG']);
 			 				?>
 			 			<input type="hidden" name="loginType" value="mfg" />
 			 			</div>
@@ -92,12 +67,7 @@
   	</div>
   </div>
 
-  <script type="text/javascript">
-  	$(function(){
-		   $("#invalid_cred_alert").fadeTo(2000, 500).slideUp(500, function(){
-		  	  $("#invalid_cred_alert").alert('close');
-			});
-	});
-  </script>
+<!-- Site JS -->
+<script type="text/javascript" src="./script.js"></script>
 </body>
 </html>
