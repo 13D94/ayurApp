@@ -18,6 +18,7 @@
 *	2 = Correct Login Credentials -> Registered User
 * If the MFG_LOGIN_FLAG is set to 1 he is redirected back to the Manufacturer Login page.
 * If the MFG_LOGIN_FLAG is set to 2 he is redirected to the main.php file of the Manufactuer.
+* On Successful Authentication a Session ID is generated for the user. This ID(token) will be used in logout.php
 *
 * Caller : Doctor (doc)
 * ---------------------
@@ -27,12 +28,11 @@ require_once(__DIR__."/classes/manufacturerClass.php");
 //require_once('./classes/doctorClass.php');
 //require_once('./classes/merchantClass.php');
 
-session_start();
-
 if($_POST['loginType'] == "mfg"){
 
 	// Now check if Manufacturer Username or Password was empty, If so redirect to Manufacturer Login Page
 	if($_POST['mfgUname'] == NULL || $_POST['mfgPass'] == NULL) {
+		session_start();
 
 		// Set Session MFG_LOGIN_FLAG to 1, which means incorrect Login Credentials!
 		$_SESSION['MFG_LOGIN_FLAG'] = 1;
@@ -51,22 +51,29 @@ if($_POST['loginType'] == "mfg"){
 
 	// The POST values are cleaned inside the checkMfgAccountRegistration(), so need of cleaning before passing.
 	$mfgRegStatus = $mfgObj->checkMfgAccountRegistration($mfgUname,$mfgPass);
-	echo $mfgRegStatus;
+	//echo $mfgRegStatus;
 	
 	if($mfgRegStatus == "MFG_USER_REGISTERED"){
 
+		$mf_id = $mfgObj->getMfgIdFromMfgUname(trim($mfgUname));
+		// Generate the Session ID for the user
+		$userSID = hash_hmac('sha256', time(), 'pTk');
+
+		//Set the session ID and start the session
+		session_id($userSID);	
+		session_start();
 		// Set Session MFG_LOGIN_FLAG to 2, which means his account is authenticated.
 		$_SESSION['MFG_LOGIN_FLAG'] = 2;
 
 		// Save MFG_ID to session, We need it in other pages.
-		$_SESSION['MFG_ID']  = $mfgObj->getMfgIdFromMfgUname(trim($mfgUname));
+		$_SESSION['MFG_ID']  = $mf_id;
 		session_write_close();
 
 		// Redirect him to manufacturer main.php.
 		header("location: ../manufacturer/dashboard.php");
 		exit();
 	}else if($mfgRegStatus == "MFG_USER_INCORRECT_CREDENTIALS"){
-
+		session_start();
 		// Set Session MFG_LOGIN_FLAG to 1, which means incorrect Login Credentials!
 		$_SESSION['MFG_LOGIN_FLAG'] = 1;
 		session_write_close();
@@ -75,7 +82,7 @@ if($_POST['loginType'] == "mfg"){
 		header("location: ../manufacturer/");
 		exit();
 	}else if($mfgRegStatus == "MFG_USER_UNREGISTERED"){
-
+		session_start();
 		// [TODO] : Actually his account doesn't exist, we could redirect him to registration page.
 		// For now redirect him to Manufacturer Login Page saying that his credentials are Invalid. ;-)
 		// Set Session MFG_LOGIN_FLAG to 1, which means incorrect Login Credentials!
