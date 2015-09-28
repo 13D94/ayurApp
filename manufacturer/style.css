@@ -8,7 +8,7 @@
     border-radius: 4px;
 }
 body{
-  	padding-top: 15px;
+    padding-top: 30px;
     font-family:'Open Sans',sans-serif;
 }
 input.parsley-error,
@@ -26,4 +26,7 @@ textarea.parsley-error {
   //font-size: 0.8em;
     color: red;
     font-variant: small-caps;
+}
+.label-as-badge {
+    border-radius: 1em;
 }
