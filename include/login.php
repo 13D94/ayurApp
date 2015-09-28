@@ -57,7 +57,7 @@ if($_POST['loginType'] == "mfg"){
 
 		$mf_id = $mfgObj->getMfgIdFromMfgUname(trim($mfgUname));
 		// Generate the Session ID for the user
-		$userSID = hash_hmac('sha256', time(), 'pTk');
+		$userSID = hash_hmac('md5', time(), 'pTk');
 
 		//Set the session ID and start the session
 		session_id($userSID);	
