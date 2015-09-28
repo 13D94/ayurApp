@@ -127,8 +127,7 @@ SQL;
 	 * For the manufacturer to add a new product
 	 *
 	 * This parameters of this functions must be verified for their types before passing.
-	 * @return nothing.
-	 * @param $p_id (integer) The product id of the product added, this is autoincremented in the database
+	 * @return $p_id (integer) The product id of the product added, this is autoincremented in the database
 	 * @param $p_mf_id (integer) The product's manufacturer id. this will be taken from the session when a manufacturer is adding a new product.
 	 * @param $p_name (string) The name of the new added product.
 	 * @param $p_image (string) path of the uploaded image of the product.
@@ -150,6 +149,8 @@ SQL;
 		if(!$result = $this->db->query($sql)){
 			errorHandler('DB_MFG_INSERT_PRODUCT_ERROR',$this->db->error);
 			return;
+		}else{
+			return $this->db->insert_id;
 		}
 	}
 
@@ -209,6 +210,36 @@ SQL;
 				errorHandler('DB_MFG_DELETE_PRODUCT_ERROR',"Product might have already been deleted or product doesnt exist in the DB");
 				return;
 			}
+		}
+	}
+
+	/**
+	 * For searching products from the database
+	 *
+	 * p_name used to match the product
+	 * This parameters of this functions must be verified for their types before passing.
+	 * @return $resultsArray (mixed) Array of the results.
+	 * @param $p_name (string) The product name, this is fixed with wildcard characters and then searched.
+	 * @param $p_mfg_id (integer) The Manufacturer ID, of whom the products belong.
+	 * @param $sort (string) ASC for ascending search results, and DESC for descending search results.
+	 * @public
+	 */
+	public function searchProduct($p_name,$p_mfg_id,$sort) {
+		$sql = <<<SQL
+		SELECT * FROM `tb_mfg_products`
+		WHERE `p_name` LIKE '%$p_name%'
+		AND `p_mfg_id` = '$p_mfg_id'
+		ORDER BY `p_name` $sort
+SQL;
+		if(!$result = $this->db->query($sql)){
+			errorHandler('DB_MFG_SEARCH_PRODUCT_QUERY_ERROR',$this->db->error);
+ 			return;
+		}else{
+			$resultsArray = array();
+			while ($row = $result->fetch_array(MYSQL_ASSOC)) {
+				$resultsArray[] = $row;
+			}
+			return $resultsArray;
 		}
 	}
 }
