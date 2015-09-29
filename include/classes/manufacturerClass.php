@@ -242,6 +242,33 @@ SQL;
 			return $resultsArray;
 		}
 	}
+
+	/**
+	 * For geting details about a particular product
+	 *
+	 * p_id used to match the product
+	 * This parameters of this functions must be verified for their types before passing.
+	 * @return $prodDetailsArray (mixed) details about the product.
+	 * @param $p_id (integer) Product id of the product.
+	 * @param $p_mfg_id (integer) The calling manufacturer's id
+	 * @public
+	 */
+	public function getProductInfo($p_id,$p_mfg_id){
+		$sql = <<<SQL
+		SELECT * FROM `tb_mfg_products`
+		WHERE `p_id` = '$p_id'
+		AND `p_mfg_id` = '$p_mfg_id'
+SQL;
+		if(!$result = $this->db->query($sql)){
+			errorHandler('DB_MFG_GET_PRODUCT_QUERY_ERROR',$this->db->error);
+ 			return;
+		}else{
+			$resultsArray = array();
+			$prodDetailsArray = $result->fetch_array(MYSQL_ASSOC);
+			return $prodDetailsArray;
+		}
+
+	}
 }
 
 //$mfg = new ManufacturerClass;

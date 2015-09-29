@@ -115,6 +115,8 @@ function errorHandler($errorCode,$errorMsg){
         break;
     case 'DB_MFG_SEARCH_PRODUCT_QUERY_ERROR' : echo "Unable to search the product with the name specified :".$errorMsg;
         break;
+    case 'DB_MFG_GET_PRODUCT_QUERY_ERROR': echo "Unable to retrive the product details :".$errorMsg;
+        break;
 		default: echo "Unknown Error !";
 	}
 
